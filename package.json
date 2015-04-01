@@ -1,0 +1,33 @@
+{
+  "name": "express-phalanx",
+  "description": "HTTP Clustering for Express (4.x)",
+  "version": "1.0.2",
+  "author": {
+    "name": "Pier Fumagalli",
+    "email": "pier@usrz.com"
+  },
+  "main": "src/express-phalanx.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/usrz/js-express-phalanx"
+  },
+  "homepage": "https://github.com/usrz/js-express-phalanx",
+  "keywords": [
+    "express",
+    "phalanx",
+    "cluster",
+    "https",
+    "http"
+  ],
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "grunt": "^0.4.5",
+    "grunt-simple-mocha": "^0.4.0",
+    "request": "^2.54.0"
+  },
+  "dependencies": {
+    "express": "^4.12.3",
+    "logrotate-stream": "^0.2.5"
+  }
+}
