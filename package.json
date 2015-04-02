@@ -28,6 +28,9 @@
   },
   "dependencies": {
     "express": "^4.12.3",
-    "logrotate-stream": "^0.2.5"
+    "express-errorlog": "^1.0.3",
+    "express-request-id": "^1.0.0",
+    "logrotate-stream": "^0.2.5",
+    "morgan": "^1.5.2"
   }
 }
