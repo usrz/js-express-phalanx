@@ -35,7 +35,6 @@ var requestid = require('express-request-id');
 var express = require('express');
 var cluster = require('cluster');
 var morgan = require('morgan');
-var log = require('errorlog')('(PID=' + process.pid + ')');
 
 var MORGAN_FORMAT = ':date[iso] [:remote-addr] ":method :url HTTP/:http-version" :status :res[content-length] :response-time - :id';
 morgan.token('id', function(req) {
@@ -72,6 +71,16 @@ var Phalanx = function(options, callback) {
     });
 
   } else {
+    var log = require('errorlog')({
+      category: '(PID=' + process.pid + ')',
+      logger: {
+        write: function(message) {
+          process.send({"error_log":message});
+        }
+      }
+    });
+    log('Starting..');
+
     var app = express();
     var listen = app.listen;
 
@@ -87,25 +96,37 @@ var Phalanx = function(options, callback) {
     }
 
     app.use(requestid());
-    app.use(morgan(MORGAN_FORMAT));
+    app.use(morgan(MORGAN_FORMAT, {
+      stream: {
+        write : function(message) {
+          process.send({"access_log":message});
+        }
+      }
+    }));
 
     if (callback) callback(app);
 
     // 404 on defaults and error log!
     app.use(function(req, res, next) { next(404); });
-    app.use(errorlog());
+    app.use(errorlog({
+      category: '(PID=' + process.pid + ')',
+      logger: {
+        write: function(message) {
+          process.send({"error_log":message});
+        }
+      }
+    }));
 
     // callback the listener
     listen.call(app, port, host, function() {
       if (listencallback) {
         listencallback.call(listencontext);
       }
-      process.send("msg");
     });
   }
 }
 
 
 new Phalanx({}, function(app) {
-  log("APPLICATION STARTING");
+  //log("APPLICATION STARTING");
 })
