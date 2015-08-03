@@ -11,6 +11,7 @@ var sample_options = {
   "logging": {
     "error_log": "error.log",
     "accesS_log": {
+      "format": ':date[iso] [:remote-addr] ":method :url HTTP/:http-version" :status :res[content-length] :response-time - :id',
       "file": "access_log",
       "size": "50m",
       "keep": 10,
